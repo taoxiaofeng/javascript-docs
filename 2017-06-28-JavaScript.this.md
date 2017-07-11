@@ -15,43 +15,43 @@ this出现的场景分为四类
 1、函数有所属对象时：指向所属对象
 
 函数有所属对象时，通常通过 . 表达式调用，这时 this 自然指向所属对象。比如下面的例子：
+```
+var myObject = {value:100};
+myObject.getValue = function() {
 
->var myObject = {value:100};
->myObject.getValue = function() {
->
->console.log(this.value);//输出100
->
->console.log(this);//输出{value：100，getValue:function},其实就是myObject对象本身
->
->return this.value;
->
->}
->
->console.log(myObject.getValue());//100
->
->getValue()属于对象myObject(),并由myObject进行.调用，因此this指向对象myObject。
+console.log(this.value);//输出100
+
+console.log(this);//输出{value：100，getValue:function},其实就是myObject对象本身
+
+return this.value;
+
+}
+
+console.log(myObject.getValue());//100
+```
+getValue()属于对象myObject(),并由myObject进行.调用，因此this指向对象myObject。
 
 2、 函数没有所属对象：指向全局对象
+```
+var myObject = {value:100};
+myObject.getValue = function() {
 
->var myObject = {value:100};
->myObject.getValue = function() {
->
->var foo = function() {
->
->console.log(this.value);//undefined
->
->console.log(this);//输出全局对象Window
->
->};
->
->foo();
->
->return this.value;
->
->};
->
->console.log(myObject.getValue());//100
+var foo = function() {
 
+console.log(this.value);//undefined
+
+console.log(this);//输出全局对象Window
+
+};
+
+foo();
+
+return this.value;
+
+};
+
+console.log(myObject.getValue());//100
+```
 在上述代码块中，foo 函数虽然定义在 getValue 的函数体内，但实际上它既不属于 getValue 也不属于 myObject。foo 并没有被绑定在任何对象上，所以当调用时，它的 this 指针指向了全局对象 window.(PS:foo对象没有被上一级对象所调用，所以在这里this指向的就是全局对象window。)
 
 另一种写法：
